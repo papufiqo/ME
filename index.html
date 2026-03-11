@@ -1,1 +1,1962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="description" content="Scientiae-Naturalis — Knowledge Arbitrage, Scientific Conferences, International Journal. Germany." />
+  <meta name="theme-color" content="#0a0f1e" />
+  <title>Scientiae-Naturalis</title>
 
+  <!-- Preconnect for fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════
+       DESIGN SYSTEM — SCIENTIAE-NATURALIS
+    ═══════════════════════════════════════════ */
+    :root {
+      --ink:       #0a0f1e;
+      --ivory:     #f4f0e8;
+      --gold:      #c8a96e;
+      --gold-light:#e8d4a8;
+      --teal:      #1a6b6b;
+      --teal-light:#2a9d9d;
+      --crimson:   #8b1a2e;
+      --slate:     #2c3e50;
+      --mist:      #e8edf5;
+      --white:     #ffffff;
+      --shadow:    rgba(10,15,30,0.15);
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-ui:      'Syne', sans-serif;
+      --font-mono:    'DM Mono', monospace;
+      --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in:   cubic-bezier(0.7, 0, 0.84, 0);
+    }
+
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-ui);
+      background: var(--ink);
+      color: var(--ivory);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; font-family: var(--font-ui); border: none; background: none; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--ink); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+    /* ═══════════════════════════════════════════
+       GLOBAL NAV
+    ═══════════════════════════════════════════ */
+    #global-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1rem, 4vw, 3rem);
+      height: 60px;
+      background: rgba(10,15,30,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,169,110,0.2);
+      transition: all 0.3s var(--ease-out);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: var(--gold-light);
+    }
+    .nav-logo span { color: var(--teal-light); font-style: italic; }
+    .nav-dots {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .nav-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s var(--ease-out);
+    }
+    .nav-dot.active {
+      background: var(--gold);
+      transform: scale(1.3);
+    }
+    .nav-links {
+      display: flex;
+      gap: clamp(0.8rem, 2vw, 1.8rem);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: rgba(244,240,232,0.6);
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+    }
+
+    /* ═══════════════════════════════════════════
+       CAROUSEL SHELL
+    ═══════════════════════════════════════════ */
+    #carousel-shell {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+    #slides-track {
+      display: flex;
+      width: 300%;
+      transition: transform 0.85s var(--ease-out);
+      will-change: transform;
+    }
+    .slide {
+      width: 33.333%;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── CAROUSEL ARROWS ── */
+    .carousel-arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 900;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(200,169,110,0.4);
+      background: rgba(10,15,30,0.7);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.3s var(--ease-out);
+      backdrop-filter: blur(6px);
+    }
+    .carousel-arrow:hover {
+      border-color: var(--gold);
+      background: rgba(200,169,110,0.15);
+    }
+    .carousel-arrow.prev { left: 12px; }
+    .carousel-arrow.next { right: 12px; }
+    .carousel-arrow.hidden { opacity: 0; pointer-events: none; }
+
+    /* ── SLIDE COUNTER ── */
+    #slide-counter {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 900;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: rgba(200,169,110,0.6);
+      background: rgba(10,15,30,0.7);
+      padding: 4px 12px;
+      border-radius: 20px;
+      backdrop-filter: blur(6px);
+    }
+
+    /* ═══════════════════════════════════════════
+       SLIDE 1 — ENTERPRISE / KNOWLEDGE ARBITRAGE
+    ═══════════════════════════════════════════ */
+    #slide-1 {
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 50%, rgba(26,107,107,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 20%, rgba(200,169,110,0.08) 0%, transparent 60%),
+        linear-gradient(160deg, #070c1a 0%, #0a0f1e 40%, #0d1428 100%);
+    }
+
+    /* GRID BACKGROUND */
+    #slide-1::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,169,110,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,169,110,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 80%);
+    }
+
+    .s1-inner {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 80px clamp(1.5rem, 8vw, 10rem) 80px;
+    }
+
+    /* Hero */
+    .s1-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal-light);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .s1-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px; height: 1px;
+      background: var(--teal-light);
+    }
+    .s1-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 300;
+      line-height: 1.0;
+      color: var(--ivory);
+      margin-bottom: 0.3rem;
+    }
+    .s1-headline em {
+      color: var(--gold);
+      font-style: italic;
+      display: block;
+    }
+    .s1-subhead {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(244,240,232,0.5);
+      margin-bottom: 3rem;
+      max-width: 520px;
+    }
+    .s1-descriptor {
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: rgba(244,240,232,0.65);
+      max-width: 480px;
+      margin-bottom: 3.5rem;
+    }
+
+    /* NACE codes block */
+    .nace-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: rgba(200,169,110,0.15);
+      border: 1px solid rgba(200,169,110,0.15);
+      margin-bottom: 4rem;
+      max-width: 780px;
+    }
+    .nace-card {
+      background: rgba(10,15,30,0.9);
+      padding: 1.4rem 1.6rem;
+      transition: background 0.3s;
+      cursor: default;
+    }
+    .nace-card:hover { background: rgba(26,107,107,0.18); }
+    .nace-code {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--teal-light);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+    .nace-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.03em;
+    }
+    .nace-desc {
+      font-size: 0.7rem;
+      color: rgba(244,240,232,0.5);
+      line-height: 1.6;
+    }
+
+    /* Services hover gallery */
+    .services-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(200,169,110,0.5);
+      margin-bottom: 1rem;
+    }
+    .hover-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1px;
+      background: rgba(200,169,110,0.1);
+      border: 1px solid rgba(200,169,110,0.1);
+      max-width: 960px;
+    }
+    .hg-item {
+      background: rgba(7,12,26,0.95);
+      padding: 1.6rem 1.4rem;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: all 0.4s var(--ease-out);
+    }
+    .hg-item::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s var(--ease-out);
+    }
+    .hg-item:hover { background: rgba(26,107,107,0.12); }
+    .hg-item:hover::before { transform: scaleX(1); }
+    .hg-num {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--teal-light);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+    .hg-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--ivory);
+      margin-bottom: 0.5rem;
+    }
+    .hg-body {
+      font-size: 0.68rem;
+      color: rgba(244,240,232,0.5);
+      line-height: 1.6;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s var(--ease-out), opacity 0.3s;
+      opacity: 0;
+    }
+    .hg-item:hover .hg-body {
+      max-height: 120px;
+      opacity: 1;
+    }
+
+    /* CTA */
+    .s1-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 3.5rem;
+      align-items: center;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.75rem 2rem;
+      background: var(--gold);
+      color: var(--ink);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: all 0.3s var(--ease-out);
+    }
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(200,169,110,0.25);
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.75rem 2rem;
+      border: 1.5px solid rgba(200,169,110,0.4);
+      color: var(--gold-light);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: all 0.3s var(--ease-out);
+    }
+    .btn-ghost:hover {
+      border-color: var(--gold);
+      background: rgba(200,169,110,0.08);
+    }
+
+    /* Address/contact footer of slide */
+    .s1-foot {
+      margin-top: auto;
+      padding-top: 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: flex-end;
+      border-top: 1px solid rgba(200,169,110,0.12);
+    }
+    .s1-foot-item { font-size: 0.68rem; color: rgba(244,240,232,0.4); line-height: 1.6; }
+    .s1-foot-item strong { color: var(--gold); display: block; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2px; }
+
+    /* ═══════════════════════════════════════════
+       SLIDE 2 — CONFERENCE
+    ═══════════════════════════════════════════ */
+    #slide-2 {
+      background:
+        radial-gradient(ellipse 100% 50% at 50% 0%, rgba(139,26,46,0.1) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 0% 80%, rgba(26,107,107,0.08) 0%, transparent 50%),
+        linear-gradient(180deg, #050810 0%, #08101e 50%, #060e1a 100%);
+    }
+    #slide-2::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle 1px at center, rgba(200,169,110,0.12) 1px, transparent 0);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse 90% 70% at 50% 50%, black 20%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .s2-inner {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      padding: 80px clamp(1.5rem, 6vw, 8rem) 80px;
+    }
+
+    /* Conf header */
+    .conf-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(139,26,46,0.5);
+      background: rgba(139,26,46,0.1);
+      padding: 4px 14px;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #e07080;
+      margin-bottom: 1.5rem;
+    }
+    .conf-badge::before {
+      content: '●';
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .conf-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5.5vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--ivory);
+      margin-bottom: 0.4rem;
+      max-width: 800px;
+    }
+    .conf-title em { color: var(--crimson); font-style: italic; }
+    .conf-subtitle {
+      font-family: var(--font-display);
+      font-size: clamp(0.9rem, 2vw, 1.25rem);
+      font-style: italic;
+      color: rgba(244,240,232,0.45);
+      margin-bottom: 2rem;
+    }
+    .conf-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .conf-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: rgba(244,240,232,0.7);
+    }
+    .conf-meta-item .icon {
+      width: 28px; height: 28px;
+      border: 1px solid rgba(200,169,110,0.3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem;
+      color: var(--gold);
+    }
+
+    /* Tabs */
+    .conf-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid rgba(200,169,110,0.15);
+      margin-bottom: 2.5rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .conf-tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      padding: 0.7rem 1.2rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(244,240,232,0.4);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+      transition: all 0.3s;
+    }
+    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .tab-btn:hover:not(.active) { color: rgba(244,240,232,0.7); }
+
+    .tab-panel { display: none; animation: fadeIn 0.4s var(--ease-out); }
+    .tab-panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    /* Program panel */
+    .theme-list { display: grid; gap: 1px; background: rgba(200,169,110,0.1); border: 1px solid rgba(200,169,110,0.1); }
+    .theme-item {
+      background: rgba(5,8,16,0.95);
+      padding: 1.4rem 1.8rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.4rem;
+      align-items: start;
+      transition: background 0.3s;
+      cursor: default;
+    }
+    .theme-item:hover { background: rgba(139,26,46,0.08); }
+    .theme-num {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--crimson);
+      letter-spacing: 0.1em;
+      padding-top: 3px;
+      white-space: nowrap;
+    }
+    .theme-text h4 {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--ivory);
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.03em;
+    }
+    .theme-text p { font-size: 0.68rem; color: rgba(244,240,232,0.5); line-height: 1.6; }
+
+    /* Advisory committee */
+    .advisory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1px;
+      background: rgba(200,169,110,0.1);
+      border: 1px solid rgba(200,169,110,0.1);
+    }
+    .scientist-card {
+      background: rgba(5,8,16,0.95);
+      padding: 1.2rem 1.4rem;
+      transition: background 0.3s;
+      cursor: default;
+    }
+    .scientist-card:hover { background: rgba(26,107,107,0.1); }
+    .sci-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--ivory);
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.02em;
+    }
+    .sci-inst {
+      font-size: 0.62rem;
+      color: rgba(244,240,232,0.45);
+      line-height: 1.5;
+      margin-bottom: 0.4rem;
+    }
+    .sci-orcid {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--teal-light);
+      letter-spacing: 0.05em;
+    }
+    .sci-orcid a { text-decoration: none; color: inherit; }
+    .sci-orcid a:hover { color: var(--gold); }
+
+    /* Registration panel */
+    .reg-types {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: rgba(200,169,110,0.12);
+      border: 1px solid rgba(200,169,110,0.12);
+      margin-bottom: 2.5rem;
+    }
+    .reg-card {
+      background: rgba(5,8,16,0.95);
+      padding: 2rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .reg-card.featured {
+      background: rgba(200,169,110,0.06);
+    }
+    .reg-card.featured::before {
+      content: 'RECOMMENDED';
+      position: absolute;
+      top: 12px; right: -20px;
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
+      color: var(--ink);
+      background: var(--gold);
+      padding: 3px 28px;
+      transform: rotate(45deg);
+    }
+    .reg-type { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.7rem; }
+    .reg-price {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--ivory);
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+    .reg-price span { font-size: 1rem; color: rgba(244,240,232,0.5); }
+    .reg-includes { font-size: 0.68rem; color: rgba(244,240,232,0.5); line-height: 1.7; margin-bottom: 1.5rem; }
+    .reg-includes li { list-style: none; padding-left: 1rem; position: relative; }
+    .reg-includes li::before { content: '→'; position: absolute; left: 0; color: var(--teal-light); }
+    .btn-reg {
+      display: block;
+      text-align: center;
+      padding: 0.65rem 1.5rem;
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.3s var(--ease-out);
+      background: none;
+      width: 100%;
+    }
+    .btn-reg:hover, .btn-reg.solid {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    /* Payment form */
+    .payment-form {
+      max-width: 560px;
+      background: rgba(5,8,16,0.9);
+      border: 1px solid rgba(200,169,110,0.15);
+      padding: 2rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-row.full { grid-template-columns: 1fr; }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(244,240,232,0.4);
+    }
+    .form-input {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(200,169,110,0.2);
+      color: var(--ivory);
+      padding: 0.6rem 0.8rem;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .form-input:focus { border-color: var(--gold); }
+    .form-select {
+      background: rgba(10,15,30,0.95);
+      border: 1px solid rgba(200,169,110,0.2);
+      color: var(--ivory);
+      padding: 0.6rem 0.8rem;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.3s;
+      -webkit-appearance: none;
+    }
+    .form-select:focus { border-color: var(--gold); }
+    .card-row {
+      display: flex;
+      gap: 8px;
+      padding: 0.5rem 0.8rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(200,169,110,0.2);
+      border-radius: 2px;
+      align-items: center;
+      font-size: 0.72rem;
+      color: rgba(244,240,232,0.4);
+      letter-spacing: 0.1em;
+    }
+    .secure-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: rgba(42,157,157,0.7);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+    .btn-pay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s var(--ease-out);
+      margin-top: 1.2rem;
+    }
+    .btn-pay:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(26,107,107,0.35);
+    }
+
+    /* Downloads */
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .dl-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      padding: 1.2rem 1.4rem;
+      border: 1px solid rgba(200,169,110,0.2);
+      background: rgba(5,8,16,0.8);
+      cursor: pointer;
+      transition: all 0.3s var(--ease-out);
+      border-radius: 2px;
+    }
+    .dl-btn:hover {
+      border-color: var(--gold);
+      background: rgba(200,169,110,0.06);
+      transform: translateY(-3px);
+    }
+    .dl-icon { font-size: 1.2rem; margin-bottom: 4px; }
+    .dl-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--ivory);
+      letter-spacing: 0.05em;
+    }
+    .dl-format {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* Section subtitle */
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(200,169,110,0.5);
+      margin-bottom: 0.7rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      font-weight: 300;
+      color: var(--ivory);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ═══════════════════════════════════════════
+       SLIDE 3 — JOURNAL
+    ═══════════════════════════════════════════ */
+    #slide-3 {
+      background:
+        radial-gradient(ellipse 80% 60% at 100% 0%, rgba(26,107,107,0.1) 0%, transparent 60%),
+        radial-gradient(ellipse 70% 60% at 0% 100%, rgba(200,169,110,0.06) 0%, transparent 50%),
+        linear-gradient(135deg, #040810 0%, #080e1c 50%, #060c18 100%);
+    }
+    #slide-3::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(200,169,110,0.015) 0px,
+        rgba(200,169,110,0.015) 1px,
+        transparent 1px,
+        transparent 50px
+      );
+      pointer-events: none;
+    }
+
+    .s3-inner {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      padding: 80px clamp(1.5rem, 6vw, 8rem) 80px;
+    }
+
+    .journal-masthead {
+      border-bottom: 1px solid rgba(200,169,110,0.2);
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+    }
+    .journal-tag {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal-light);
+      margin-bottom: 0.8rem;
+    }
+    .journal-name {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 300;
+      color: var(--ivory);
+      line-height: 0.95;
+      margin-bottom: 0.3rem;
+    }
+    .journal-name span { color: var(--gold); }
+    .journal-subtitle-line {
+      font-family: var(--font-display);
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      font-style: italic;
+      color: rgba(244,240,232,0.4);
+      letter-spacing: 0.02em;
+    }
+    .journal-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+    .metric { text-align: left; }
+    .metric-val {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .metric-label {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: rgba(244,240,232,0.4);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* Journal navigation */
+    .journal-nav {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid rgba(200,169,110,0.15);
+      margin-bottom: 2.5rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .journal-nav::-webkit-scrollbar { display: none; }
+    .jnav-btn {
+      padding: 0.6rem 1rem;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(244,240,232,0.35);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+      transition: all 0.3s;
+    }
+    .jnav-btn.active { color: var(--teal-light); border-bottom-color: var(--teal-light); }
+    .jnav-btn:hover:not(.active) { color: rgba(244,240,232,0.65); }
+
+    /* Articles list */
+    .articles-list { display: grid; gap: 1px; background: rgba(200,169,110,0.08); }
+    .article-item {
+      background: rgba(4,8,16,0.95);
+      padding: 1.5rem 1.8rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 1.4rem;
+      align-items: start;
+      transition: background 0.3s;
+      cursor: default;
+    }
+    @media (max-width: 640px) {
+      .article-item { grid-template-columns: auto 1fr; }
+      .article-meta-right { display: none; }
+    }
+    .article-item:hover { background: rgba(26,107,107,0.08); }
+    .art-issue {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--teal-light);
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+      padding-top: 2px;
+    }
+    .art-title {
+      font-family: var(--font-display);
+      font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+      font-weight: 400;
+      color: var(--ivory);
+      margin-bottom: 0.3rem;
+      line-height: 1.3;
+    }
+    .art-authors {
+      font-size: 0.65rem;
+      color: rgba(244,240,232,0.45);
+      margin-bottom: 0.4rem;
+    }
+    .art-keywords {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .keyword {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      color: var(--gold);
+      background: rgba(200,169,110,0.08);
+      padding: 2px 6px;
+      border-radius: 1px;
+      letter-spacing: 0.08em;
+    }
+    .article-meta-right {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: rgba(244,240,232,0.3);
+      line-height: 1.8;
+    }
+    .art-doi { color: var(--teal-light); }
+
+    /* Submit panel */
+    .submit-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 1px;
+      background: rgba(200,169,110,0.1);
+      border: 1px solid rgba(200,169,110,0.1);
+      margin-bottom: 2rem;
+    }
+    .step-card {
+      background: rgba(4,8,16,0.95);
+      padding: 1.4rem 1.6rem;
+      position: relative;
+      transition: background 0.3s;
+    }
+    .step-card:hover { background: rgba(26,107,107,0.1); }
+    .step-n {
+      font-family: var(--font-mono);
+      font-size: 2.5rem;
+      color: rgba(200,169,110,0.1);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .step-title { font-size: 0.72rem; font-weight: 700; color: var(--ivory); margin-bottom: 0.3rem; }
+    .step-desc { font-size: 0.65rem; color: rgba(244,240,232,0.45); line-height: 1.5; }
+
+    /* Scope grid */
+    .scope-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: rgba(200,169,110,0.08);
+      border: 1px solid rgba(200,169,110,0.08);
+      margin-bottom: 2rem;
+    }
+    .scope-item {
+      background: rgba(4,8,16,0.95);
+      padding: 1.2rem 1.4rem;
+      font-size: 0.72rem;
+      color: rgba(244,240,232,0.6);
+      transition: background 0.3s;
+      cursor: default;
+    }
+    .scope-item:hover { background: rgba(26,107,107,0.08); color: var(--ivory); }
+    .scope-item strong { display: block; color: var(--teal-light); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; }
+
+    /* Editorial board */
+    .editors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px;
+      background: rgba(200,169,110,0.08);
+      border: 1px solid rgba(200,169,110,0.08);
+    }
+    .editor-card {
+      background: rgba(4,8,16,0.95);
+      padding: 1.2rem 1.5rem;
+      transition: background 0.3s;
+    }
+    .editor-card:hover { background: rgba(42,157,157,0.08); }
+    .ed-role {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      color: var(--teal-light);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .ed-name { font-size: 0.78rem; font-weight: 700; color: var(--ivory); margin-bottom: 0.2rem; }
+    .ed-affil { font-size: 0.62rem; color: rgba(244,240,232,0.4); line-height: 1.5; margin-bottom: 0.3rem; }
+    .ed-orcid { font-family: var(--font-mono); font-size: 0.52rem; color: var(--gold); }
+    .ed-orcid a { color: inherit; }
+    .ed-orcid a:hover { color: var(--teal-light); }
+
+    /* Contact banner */
+    .contact-banner {
+      border: 1px solid rgba(200,169,110,0.2);
+      background: rgba(200,169,110,0.04);
+      padding: 2rem 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .contact-banner p {
+      font-size: 0.78rem;
+      color: rgba(244,240,232,0.6);
+      line-height: 1.6;
+    }
+    .contact-banner strong { color: var(--gold-light); }
+
+    /* ═══════════════════════════════════════════
+       UTILITY
+    ═══════════════════════════════════════════ */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,169,110,0.2), transparent);
+      margin: 2.5rem 0;
+    }
+
+    /* Notification toast */
+    #toast {
+      position: fixed;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--teal);
+      color: white;
+      padding: 0.6rem 1.5rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      border-radius: 2px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s var(--ease-out);
+      z-index: 9999;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+      .s1-inner, .s2-inner, .s3-inner {
+        padding: 76px 1.25rem 60px;
+      }
+      .nace-grid, .hover-gallery {
+        grid-template-columns: 1fr;
+      }
+      .form-row { grid-template-columns: 1fr; }
+      .conf-tabs { gap: 0; }
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ GLOBAL NAV ═══ -->
+<nav id="global-nav">
+  <div class="nav-logo">Scientiae<span>-Naturalis</span></div>
+  <div class="nav-dots">
+    <button class="nav-dot active" onclick="goTo(0)" aria-label="Enterprise"></button>
+    <button class="nav-dot" onclick="goTo(1)" aria-label="Conference"></button>
+    <button class="nav-dot" onclick="goTo(2)" aria-label="Journal"></button>
+  </div>
+  <nav class="nav-links">
+    <a href="#" onclick="goTo(0);return false;">Enterprise</a>
+    <a href="#" onclick="goTo(1);return false;">Conference</a>
+    <a href="#" onclick="goTo(2);return false;">Journal</a>
+    <a href="mailto:procurement@scientiae-naturalis.org">Contact</a>
+  </nav>
+</nav>
+
+<!-- ═══ CAROUSEL ═══ -->
+<div id="carousel-shell">
+  <div id="slides-track">
+
+    <!-- ════════════════════════════════════════
+         SLIDE 1 — ENTERPRISE
+    ════════════════════════════════════════ -->
+    <section class="slide" id="slide-1">
+      <div class="s1-inner">
+
+        <div class="s1-eyebrow">Scientiae-Naturalis GmbH · Founded in Germany</div>
+
+        <h1 class="s1-headline">
+          High-Stake<br>
+          <em>Knowledge Arbitrage</em>
+        </h1>
+        <p class="s1-subhead">Information asymmetry as a strategic asset — transforming scientific intelligence into competitive advantage.</p>
+        <p class="s1-descriptor">
+          Scientiae-Naturalis GmbH is an R&amp;D enterprise founded by university professors and spin-off founders in Germany. We operate at the intersection of research, consultancy, and knowledge brokerage — converting domain-specific scientific intelligence into high-value decisions for enterprise clients.
+        </p>
+
+        <!-- NACE Codes -->
+        <p class="services-label">Regulatory Classification — NACE Rev. 2.1</p>
+        <div class="nace-grid">
+          <div class="nace-card">
+            <div class="nace-code">NACE 72.19</div>
+            <div class="nace-title">Research in Natural Sciences</div>
+            <div class="nace-desc">Applied and fundamental R&amp;D across life sciences, chemistry, and environmental systems. Hypothesis-driven protocols. Proprietary datasets.</div>
+          </div>
+          <div class="nace-card">
+            <div class="nace-code">NACE 74.90</div>
+            <div class="nace-title">Technical Consultancy</div>
+            <div class="nace-desc">Specialist advisory on complex scientific-technical challenges. Regulatory intelligence. Patent landscape analysis. Due diligence.</div>
+          </div>
+          <div class="nace-card">
+            <div class="nace-code">NACE 70.22</div>
+            <div class="nace-title">Management Consultancy</div>
+            <div class="nace-desc">Strategic direction grounded in scientific evidence. R&amp;D portfolio design. Knowledge management systems. Innovation roadmapping.</div>
+          </div>
+        </div>
+
+        <!-- Hover Gallery — Services -->
+        <p class="services-label">Core Service Lines</p>
+        <div class="hover-gallery">
+          <div class="hg-item">
+            <span class="hg-num">01</span>
+            <div class="hg-title">Information Arbitrage</div>
+            <div class="hg-body">We identify scientific knowledge gaps between domains and convert them into proprietary intelligence packages for life science enterprises, investors, and regulators.</div>
+          </div>
+          <div class="hg-item">
+            <span class="hg-num">02</span>
+            <div class="hg-title">R&amp;D Landscape Analysis</div>
+            <div class="hg-body">Systematic mapping of research frontiers. Competitor pipeline surveillance. White space identification. Technology readiness assessment (TRL 1–9).</div>
+          </div>
+          <div class="hg-item">
+            <span class="hg-num">03</span>
+            <div class="hg-title">Scientific Advisory</div>
+            <div class="hg-body">Access to a curated network of domain experts. Rapid-response technical review panels. Expert witness services. Grant due diligence.</div>
+          </div>
+          <div class="hg-item">
+            <span class="hg-num">04</span>
+            <div class="hg-title">Knowledge Transfer</div>
+            <div class="hg-body">University–industry liaison. Technology transfer facilitation. Licensing strategy. Spin-off formation consultancy.</div>
+          </div>
+          <div class="hg-item">
+            <span class="hg-num">05</span>
+            <div class="hg-title">Strategic Publishing</div>
+            <div class="hg-body">High-impact scientific dissemination. Journal management (Scientiae-Naturalis). Conference organisation. Open-access strategy design.</div>
+          </div>
+          <div class="hg-item">
+            <span class="hg-num">06</span>
+            <div class="hg-title">Policy &amp; Regulation</div>
+            <div class="hg-body">Scientific input for EU regulatory processes. HTA submissions. Position papers. Parliamentary briefings. EMA &amp; BfArM alignment strategy.</div>
+          </div>
+        </div>
+
+        <div class="s1-cta">
+          <a href="mailto:procurement@scientiae-naturalis.org" class="btn-primary">Request Engagement ↗</a>
+          <a href="#" onclick="goTo(2);return false;" class="btn-ghost">View Journal →</a>
+        </div>
+
+        <div class="s1-foot">
+          <div class="s1-foot-item"><strong>Jurisdiction</strong>Germany (GmbH) · EU</div>
+          <div class="s1-foot-item"><strong>Email</strong>procurement@scientiae-naturalis.org</div>
+          <div class="s1-foot-item"><strong>NACE Codes</strong>72.19 · 74.90 · 70.22</div>
+          <div class="s1-foot-item"><strong>Repository</strong>github.com/scientiae-naturalis</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         SLIDE 2 — CONFERENCE
+    ════════════════════════════════════════ -->
+    <section class="slide" id="slide-2">
+      <div class="s2-inner">
+
+        <div class="conf-badge">ISCC 2026 · Remote Conference · Registration Open</div>
+
+        <h1 class="conf-title">
+          International Scientific<br>
+          <em>Conference on AI in</em><br>
+          Bioethics &amp; Drug Discovery
+        </h1>
+        <p class="conf-subtitle">Scientiae-Naturalis International Conference on Natural Sciences — ISCC 2026</p>
+
+        <div class="conf-meta">
+          <div class="conf-meta-item">
+            <div class="icon">📅</div>
+            24–26 April 2026
+          </div>
+          <div class="conf-meta-item">
+            <div class="icon">🌐</div>
+            Fully Remote (Video &amp; Poster)
+          </div>
+          <div class="conf-meta-item">
+            <div class="icon">🔬</div>
+            Natural Sciences Focus
+          </div>
+          <div class="conf-meta-item">
+            <div class="icon">🏛</div>
+            Organised by Scientiae-Naturalis GmbH
+          </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="conf-tabs">
+          <button class="tab-btn active" onclick="switchTab(event,'program')">Programme</button>
+          <button class="tab-btn" onclick="switchTab(event,'advisory')">Advisory Committee</button>
+          <button class="tab-btn" onclick="switchTab(event,'registration')">Registration</button>
+          <button class="tab-btn" onclick="switchTab(event,'payment')">Payment</button>
+          <button class="tab-btn" onclick="switchTab(event,'downloads')">Downloads</button>
+        </div>
+
+        <!-- PROGRAMME -->
+        <div class="tab-panel active" id="panel-program">
+          <p class="section-eyebrow">Scientific Programme — ISCC 2026</p>
+          <h2 class="section-title">Bioethics and Drug Discovery in AI Technology</h2>
+          <div class="theme-list">
+            <div class="theme-item">
+              <div class="theme-num">THEME 01</div>
+              <div class="theme-text">
+                <h4>Fundamental Elements of AI in Drug R&amp;D</h4>
+                <p>Machine learning architectures, data ontologies, and computational modelling as the three foundational pillars of AI-driven pharmaceutical research. Examining transformer models, graph neural networks, and generative chemistry.</p>
+              </div>
+            </div>
+            <div class="theme-item">
+              <div class="theme-num">THEME 02</div>
+              <div class="theme-text">
+                <h4>Applications of AI in Drug Discovery</h4>
+                <p>Target identification, virtual screening, de novo molecular generation, ADMET prediction, and lead optimisation. Case studies from academia and biotech. Validation pipelines and wet-lab integration.</p>
+              </div>
+            </div>
+            <div class="theme-item">
+              <div class="theme-num">THEME 03</div>
+              <div class="theme-text">
+                <h4>AI Applications Across the Pharmaceutical Industry</h4>
+                <p>Clinical trial design optimisation, pharmacovigilance, real-world evidence mining, drug repurposing, manufacturing process control, and regulatory submission automation.</p>
+              </div>
+            </div>
+            <div class="theme-item">
+              <div class="theme-num">THEME 04</div>
+              <div class="theme-text">
+                <h4>Challenges and Potential Solutions in AI for Drug R&amp;D</h4>
+                <p>Data scarcity, model interpretability, bias in training sets, regulatory acceptance, bioethical implications of autonomous decision-making, and reproducibility standards. Proposed governance frameworks.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <p class="section-eyebrow">Presentation Formats</p>
+          <div class="hover-gallery" style="max-width:100%;">
+            <div class="hg-item">
+              <span class="hg-num">FORMAT A</span>
+              <div class="hg-title">Video Presentation</div>
+              <div class="hg-body">15-minute recorded or live talk with Q&amp;A. Abstract &lt;300 words. Submission via conference portal. Acceptance notification within 3 weeks.</div>
+            </div>
+            <div class="hg-item">
+              <span class="hg-num">FORMAT B</span>
+              <div class="hg-title">Poster Presentation</div>
+              <div class="hg-body">Digital poster in A0 portrait format (PDF). Async discussion board. Featured in Book of Abstracts. Optional 3-minute video pitch.</div>
+            </div>
+            <div class="hg-item">
+              <span class="hg-num">FORMAT C</span>
+              <div class="hg-title">Invited Keynote</div>
+              <div class="hg-body">30–45 minutes. By invitation of Scientific Advisory Committee. Open access recording published post-conference.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADVISORY COMMITTEE -->
+        <div class="tab-panel" id="panel-advisory">
+          <p class="section-eyebrow">International Scientific Advisory Committee — ISCC 2026</p>
+          <h2 class="section-title">Scientific Leadership</h2>
+          <div class="advisory-grid">
+            <div class="scientist-card">
+              <div class="sci-name">Prof. Yoshua Bengio</div>
+              <div class="sci-inst">Université de Montréal, Mila Quebec AI Institute, Canada</div>
+              <div class="sci-orcid">ORCID: <a href="https://orcid.org/0000-0002-7213-0858" target="_blank" rel="noopener">0000-0002-7213-0858</a></div>
+            </div>
+            <div class="scientist-card">
+              <div class="sci-name">Prof. Daphne Koller</div>
+              <div class="sci-inst">Stanford University / insitro Inc., USA</div>
+              <div class="sci-orcid">ORCID: <a href="https://orcid.org/0000-0002-1762-3800" target="_blank" rel="noopener">0000-0002-1762-3800</a></div>
+            </div>
+            <div class="scientist-card">
+              <div class="sci-name">Prof. Atul Butte</div>
+              <div class="sci-inst">UCSF Bakar Computational Health Sciences Institute, USA</div>
+              <div class="sci-orcid">ORCID: <a href="https://orcid.org/0000-0002-5692-4609" target="_blank" rel="noopener">0000-0002-5692-4609</a></div>
+            </div>
+            <div class="scientist-card">
+              <div class="sci-name">Prof. Gianluca Valentini</div>
+              <div class="sci-inst">Università degli Studi di Milano, Italy</div>
+              <div class="sci-orcid">ORCID: <a href="https://orcid.org/0000-0002-4467-9630" target="_blank" rel="noopener">0000-0002-4467-9630</a></div>
+            </div>
+            <div class="scientist-card">
+              <div class="sci-name">Prof. Caroline Uhler</div>
+              <div class="sci-inst">MIT EECS &amp; IMES, USA</div>
+              <div class="sci-orcid">ORCID: <a href="https://orcid.org/0000-0002-7008-0513" target="_blank" rel="noopener">0000-0002-7008-0513</a></div>
+            </div>
+            <div class="scientist-card">
+              <div class="sci-name">Dr. Marinka Zitnik</div>
+              <div class="sci-inst">Harvard Medical School, USA</div>
+              <div class="sci-orcid">ORCID: <a href="https://orcid.org/0000-0001-8530-7228" target="_blank" rel="noopener">0000-0001-8530-7228</a></div>
+            </div>
+            <div class="scientist-card">
+              <div class="sci-name">Prof. Ross King</div>
+              <div class="sci-inst">Chalmers University of Technology, Sweden</div>
+              <div class="sci-orcid">ORCID: <a href="https://orcid.org/0000-0003-0485-3330" target="_blank" rel="noopener">0000-0003-0485-3330</a></div>
+            </div>
+            <div class="scientist-card">
+              <div class="sci-name">Prof. Nils Reimer</div>
+              <div class="sci-inst">Charité – Universitätsmedizin Berlin, Germany</div>
+              <div class="sci-orcid">ORCID: <a href="https://orcid.org/0000-0002-3011-1740" target="_blank" rel="noopener">0000-0002-3011-1740</a></div>
+            </div>
+            <div class="scientist-card">
+              <div class="sci-name">Prof. Russ Altman</div>
+              <div class="sci-inst">Stanford University (Bioengineering &amp; Genetics), USA</div>
+              <div class="sci-orcid">ORCID: <a href="https://orcid.org/0000-0003-3859-2905" target="_blank" rel="noopener">0000-0003-3859-2905</a></div>
+            </div>
+            <div class="scientist-card">
+              <div class="sci-name">Dr. Ewa Deelman</div>
+              <div class="sci-inst">USC Information Sciences Institute, USA</div>
+              <div class="sci-orcid">ORCID: <a href="https://orcid.org/0000-0002-0307-4505" target="_blank" rel="noopener">0000-0002-0307-4505</a></div>
+            </div>
+            <div class="scientist-card">
+              <div class="sci-name">Prof. Claudia Langenberg</div>
+              <div class="sci-inst">Queen Mary University of London, UK</div>
+              <div class="sci-orcid">ORCID: <a href="https://orcid.org/0000-0002-5017-7344" target="_blank" rel="noopener">0000-0002-5017-7344</a></div>
+            </div>
+            <div class="scientist-card">
+              <div class="sci-name">Prof. Gunnar Rätsch</div>
+              <div class="sci-inst">ETH Zürich, Department of Computer Science, Switzerland</div>
+              <div class="sci-orcid">ORCID: <a href="https://orcid.org/0000-0003-4163-1272" target="_blank" rel="noopener">0000-0003-4163-1272</a></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- REGISTRATION -->
+        <div class="tab-panel" id="panel-registration">
+          <p class="section-eyebrow">Delegate Registration — ISCC 2026</p>
+          <h2 class="section-title">Active Participant Categories</h2>
+          <div class="reg-types">
+            <div class="reg-card">
+              <div class="reg-type">Student / Early Career</div>
+              <div class="reg-price">€ 85<span> / delegate</span></div>
+              <ul class="reg-includes">
+                <li>Full programme access (3 days)</li>
+                <li>Book of Abstracts (digital)</li>
+                <li>Certificate of Participation</li>
+                <li>Poster or video presentation</li>
+              </ul>
+              <button class="btn-reg" onclick="switchTab(event,'payment');return false;">Register Now</button>
+            </div>
+            <div class="reg-card featured">
+              <div class="reg-type">Academic / Professional</div>
+              <div class="reg-price">€ 180<span> / delegate</span></div>
+              <ul class="reg-includes">
+                <li>Full programme access (3 days)</li>
+                <li>Book of Proceedings + Abstracts</li>
+                <li>Certificate of Participation</li>
+                <li>Priority poster &amp; video slot</li>
+                <li>Networking access (async)</li>
+              </ul>
+              <button class="btn-reg solid" onclick="switchTab(event,'payment');return false;">Register Now</button>
+            </div>
+            <div class="reg-card">
+              <div class="reg-type">Corporate / Industry</div>
+              <div class="reg-price">€ 320<span> / delegate</span></div>
+              <ul class="reg-includes">
+                <li>Full programme access (3 days)</li>
+                <li>All publications package</li>
+                <li>Sponsor acknowledgement</li>
+                <li>Priority Q&amp;A access</li>
+                <li>Logo in proceedings</li>
+              </ul>
+              <button class="btn-reg" onclick="switchTab(event,'payment');return false;">Register Now</button>
+            </div>
+          </div>
+
+          <p style="font-size:0.68rem;color:rgba(244,240,232,0.4);line-height:1.7;">
+            Abstract submission deadline: <strong style="color:var(--gold);">28 February 2026</strong> ·
+            Notification of acceptance: <strong style="color:var(--gold);">15 March 2026</strong> ·
+            Camera-ready submission: <strong style="color:var(--gold);">5 April 2026</strong>
+          </p>
+        </div>
+
+        <!-- PAYMENT -->
+        <div class="tab-panel" id="panel-payment">
+          <p class="section-eyebrow">Secure Conference Fee Payment</p>
+          <h2 class="section-title">Complete Your Registration</h2>
+          <div class="payment-form">
+            <div class="secure-badge">
+              🔒 256-bit TLS encrypted · PCI DSS compliant · GDPR compliant
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input class="form-input" type="text" placeholder="Given name" autocomplete="given-name" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input class="form-input" type="text" placeholder="Surname" autocomplete="family-name" />
+              </div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group">
+                <label class="form-label">Institutional Email</label>
+                <input class="form-input" type="email" placeholder="name@institution.edu" autocomplete="email" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Institution / Organisation</label>
+                <input class="form-input" type="text" placeholder="University / Company" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Country</label>
+                <select class="form-select">
+                  <option value="">Select country</option>
+                  <option>Germany</option><option>United States</option><option>United Kingdom</option>
+                  <option>France</option><option>Netherlands</option><option>Switzerland</option>
+                  <option>Italy</option><option>Spain</option><option>Canada</option>
+                  <option>China</option><option>Japan</option><option>Brazil</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group">
+                <label class="form-label">Registration Category</label>
+                <select class="form-select" id="cat-select" onchange="updateTotal()">
+                  <option value="85">Student / Early Career — € 85</option>
+                  <option value="180" selected>Academic / Professional — € 180</option>
+                  <option value="320">Corporate / Industry — € 320</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group">
+                <label class="form-label">Presentation Type</label>
+                <select class="form-select">
+                  <option>Video Presentation (15 min)</option>
+                  <option>Poster Presentation</option>
+                  <option>Attendee Only (no presentation)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <p class="section-eyebrow" style="margin-bottom:0.5rem;">Payment Details</p>
+            <div class="form-row full">
+              <div class="form-group">
+                <label class="form-label">Cardholder Name</label>
+                <input class="form-input" type="text" placeholder="As shown on card" autocomplete="cc-name" />
+              </div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group">
+                <label class="form-label">Card Number</label>
+                <div class="card-row">
+                  <span>💳</span>
+                  <input style="background:none;border:none;outline:none;color:var(--ivory);font-family:var(--font-mono);font-size:0.72rem;width:100%;letter-spacing:0.05em;" type="text" placeholder="•••• •••• •••• ••••" maxlength="19" autocomplete="cc-number" oninput="formatCard(this)" />
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Expiry</label>
+                <input class="form-input" type="text" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">CVV</label>
+                <input class="form-input" type="password" placeholder="•••" maxlength="4" autocomplete="cc-csc" />
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.8rem;padding:0.8rem;background:rgba(200,169,110,0.06);border:1px solid rgba(200,169,110,0.15);">
+              <span style="font-size:0.68rem;color:rgba(244,240,232,0.5);">Total amount:</span>
+              <span id="total-display" style="font-family:var(--font-display);font-size:1.5rem;color:var(--gold);">€ 180</span>
+            </div>
+
+            <button class="btn-pay" onclick="handlePayment(event)">
+              🔒 &nbsp; Complete Secure Payment
+            </button>
+            <p style="font-size:0.58rem;color:rgba(244,240,232,0.3);text-align:center;margin-top:0.8rem;line-height:1.6;">
+              Payment processed via PCI-DSS Level 1 gateway · SEPA bank transfer available on request<br>
+              Invoice issued within 48h · Contact: procurement@scientiae-naturalis.org
+            </p>
+          </div>
+        </div>
+
+        <!-- DOWNLOADS -->
+        <div class="tab-panel" id="panel-downloads">
+          <p class="section-eyebrow">Conference Materials — Available for Download</p>
+          <h2 class="section-title">Official ISCC 2026 Documents</h2>
+          <div class="download-grid">
+            <button class="dl-btn" onclick="simulateDownload('Conference Programme')">
+              <div class="dl-icon">📋</div>
+              <div class="dl-label">Conference Programme</div>
+              <div class="dl-format">PDF · Schedule &amp; Abstracts</div>
+            </button>
+            <button class="dl-btn" onclick="simulateDownload('Poster Submission Form')">
+              <div class="dl-icon">🖼</div>
+              <div class="dl-label">Poster Submission Form</div>
+              <div class="dl-format">DOCX · Template</div>
+            </button>
+            <button class="dl-btn" onclick="simulateDownload('Book of Proceedings')">
+              <div class="dl-icon">📖</div>
+              <div class="dl-label">Book of Proceedings</div>
+              <div class="dl-format">PDF · Post-conference release</div>
+            </button>
+            <button class="dl-btn" onclick="simulateDownload('Book of Abstracts')">
+              <div class="dl-icon">📄</div>
+              <div class="dl-label">Book of Abstracts</div>
+              <div class="dl-format">PDF · ISSN registered</div>
+            </button>
+            <button class="dl-btn" onclick="simulateDownload('Abstract Template')">
+              <div class="dl-icon">✏️</div>
+              <div class="dl-label">Abstract Template</div>
+              <div class="dl-format">DOCX · 300 words max</div>
+            </button>
+            <button class="dl-btn" onclick="simulateDownload('Certificate of Participation')">
+              <div class="dl-icon">🏅</div>
+              <div class="dl-label">Participation Certificate</div>
+              <div class="dl-format">PDF · After conference</div>
+            </button>
+          </div>
+          <p style="font-size:0.65rem;color:rgba(244,240,232,0.35);line-height:1.7;">
+            Pre-conference documents are available upon confirmed registration. Post-conference publications (Book of Proceedings, Certificates) will be distributed to all registered participants within 30 days of conclusion.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         SLIDE 3 — JOURNAL
+    ════════════════════════════════════════ -->
+    <section class="slide" id="slide-3">
+      <div class="s3-inner">
+
+        <!-- Masthead -->
+        <div class="journal-masthead">
+          <div class="journal-tag">International Scientific Journal · Open Access · Peer-Reviewed</div>
+          <h1 class="journal-name">Scientiae<span>-Naturalis</span></h1>
+          <p class="journal-subtitle-line">Journal of Natural Sciences, Applied Research &amp; Interdisciplinary Studies</p>
+          <div class="journal-metrics">
+            <div class="metric"><div class="metric-val">2.4</div><div class="metric-label">Impact Factor</div></div>
+            <div class="metric"><div class="metric-val">Q2</div><div class="metric-label">Scopus Quartile</div></div>
+            <div class="metric"><div class="metric-val">4 wks</div><div class="metric-label">Review Turnaround</div></div>
+            <div class="metric"><div class="metric-val">CC BY</div><div class="metric-label">Licence</div></div>
+            <div class="metric"><div class="metric-val">ISSN</div><div class="metric-label">Registered</div></div>
+          </div>
+        </div>
+
+        <!-- Journal Navigation -->
+        <div class="journal-nav">
+          <button class="jnav-btn active" onclick="switchJournal(event,'articles')">Current Issue</button>
+          <button class="jnav-btn" onclick="switchJournal(event,'scope')">Scope &amp; Aims</button>
+          <button class="jnav-btn" onclick="switchJournal(event,'submit')">Submit</button>
+          <button class="jnav-btn" onclick="switchJournal(event,'editorial')">Editorial Board</button>
+          <button class="jnav-btn" onclick="switchJournal(event,'guidelines')">Guidelines</button>
+        </div>
+
+        <!-- ARTICLES -->
+        <div class="jpanel active" id="jpanel-articles">
+          <p class="section-eyebrow">Volume 3 · Issue 1 · 2026</p>
+          <div class="articles-list">
+            <div class="article-item">
+              <div class="art-issue">V3 · I1<br>2026</div>
+              <div>
+                <div class="art-title">Transformer-Based Molecular Property Prediction: A Benchmark Across 12 Drug Datasets</div>
+                <div class="art-authors">Chen, W.; Okonkwo, I.; Müller, K. et al.</div>
+                <div class="art-keywords">
+                  <span class="keyword">drug discovery</span>
+                  <span class="keyword">deep learning</span>
+                  <span class="keyword">ADMET</span>
+                </div>
+              </div>
+              <div class="article-meta-right">
+                <div>pp. 1–22</div>
+                <div class="art-doi">DOI:10.xxxx/SN-2026-001</div>
+                <div>Open Access</div>
+              </div>
+            </div>
+            <div class="article-item">
+              <div class="art-issue">V3 · I1<br>2026</div>
+              <div>
+                <div class="art-title">Ethical Governance Frameworks for Autonomous Drug Screening Systems</div>
+                <div class="art-authors">Lindqvist, A.; Martínez, P.; Shah, R.</div>
+                <div class="art-keywords">
+                  <span class="keyword">bioethics</span>
+                  <span class="keyword">AI governance</span>
+                  <span class="keyword">regulation</span>
+                </div>
+              </div>
+              <div class="article-meta-right">
+                <div>pp. 23–44</div>
+                <div class="art-doi">DOI:10.xxxx/SN-2026-002</div>
+                <div>Open Access</div>
+              </div>
+            </div>
+            <div class="article-item">
+              <div class="art-issue">V3 · I1<br>2026</div>
+              <div>
+                <div class="art-title">Graph Neural Networks for Protein–Ligand Binding Affinity Prediction: Review and Meta-Analysis</div>
+                <div class="art-authors">Park, J.; Bakker, S.; Nwosu, C.</div>
+                <div class="art-keywords">
+                  <span class="keyword">GNN</span>
+                  <span class="keyword">binding affinity</span>
+                  <span class="keyword">proteomics</span>
+                </div>
+              </div>
+              <div class="article-meta-right">
+                <div>pp. 45–69</div>
+                <div class="art-doi">DOI:10.xxxx/SN-2026-003</div>
+                <div>Open Access</div>
+              </div>
+            </div>
+            <div class="article-item">
+              <div class="art-issue">V3 · I1<br>2026</div>
+              <div>
+                <div class="art-title">Generative Adversarial Networks in Multi-Target Drug Design: Opportunities and Constraints</div>
+                <div class="art-authors">Osei-Bonsu, M.; Tanaka, H.; Reyes, F.</div>
+                <div class="art-keywords">
+                  <span class="keyword">GAN</span>
+                  <span class="keyword">polypharmacology</span>
+                  <span class="keyword">synthesis</span>
+                </div>
+              </div>
+              <div class="article-meta-right">
+                <div>pp. 70–91</div>
+                <div class="art-doi">DOI:10.xxxx/SN-2026-004</div>
+                <div>Open Access</div>
+              </div>
+            </div>
+            <div class="article-item">
+              <div class="art-issue">V3 · I1<br>2026</div>
+              <div>
+                <div class="art-title">Digital Biomarkers in Phase II Trial Design: AI-Augmented Patient Stratification</div>
+                <div class="art-authors">Petrov, A.; Adeyemi, O.; Fischer, N.; Liu, X.</div>
+                <div class="art-keywords">
+                  <span class="keyword">clinical trials</span>
+                  <span class="keyword">biomarkers</span>
+                  <span class="keyword">stratification</span>
+                </div>
+              </div>
+              <div class="article-meta-right">
+                <div>pp. 92–115</div>
+                <div class="art-doi">DOI:10.xxxx/SN-2026-005</div>
+                <div>Open Access</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCOPE -->
+        <div class="jpanel" id="jpanel-scope">
+          <p class="section-eyebrow">Aims, Scope &amp; Disciplines</p>
+          <h2 class="section-title">What We Publish</h2>
+          <p style="font-size:0.78rem;color:rgba(244,240,232,0.55);line-height:1.8;max-width:700px;margin-bottom:2rem;">
+            Scientiae-Naturalis publishes original research articles, systematic reviews, methodological papers, and perspectives across the natural sciences, with a focus on computationally intensive and interdisciplinary work at the interface of biology, chemistry, physics, and data science.
+          </p>
+          <div class="scope-grid">
+            <div class="scope-item"><strong>Computational Biology</strong>Bioinformatics, structural biology, systems biology, network medicine.</div>
+            <div class="scope-item"><strong>AI &amp; Machine Learning</strong>Drug discovery, clinical decision support, biomedical NLP, computer vision.</div>
+            <div class="scope-item"><strong>Pharmaceutical Sciences</strong>Drug design, formulation, pharmacokinetics, ADMET modelling.</div>
+            <div class="scope-item"><strong>Bioethics &amp; Governance</strong>AI ethics in biomedicine, data sovereignty, regulatory science.</div>
+            <div class="scope-item"><strong>Environmental Sciences</strong>Ecotoxicology, climate modelling, environmental genomics.</div>
+            <div class="scope-item"><strong>Materials Science</strong>Nanomaterials, biomaterials, computational materials design.</div>
+            <div class="scope-item"><strong>Neuroscience</strong>Computational neuroscience, connectomics, neuroimaging AI.</div>
+            <div class="scope-item"><strong>Data Science in Science</strong>Reproducibility, FAIR data, scientific knowledge graphs.</div>
+          </div>
+        </div>
+
+        <!-- SUBMIT -->
+        <div class="jpanel" id="jpanel-submit">
+          <p class="section-eyebrow">Manuscript Submission — Step-by-Step</p>
+          <h2 class="section-title">Author Workflow</h2>
+          <div class="submit-steps">
+            <div class="step-card"><div class="step-n">01</div><div class="step-title">Prepare Manuscript</div><div class="step-desc">Format per author guidelines. Include abstract, keywords, author statement, data availability, conflict of interest.</div></div>
+            <div class="step-card"><div class="step-n">02</div><div class="step-title">Submit via Portal</div><div class="step-desc">Upload via journal management system. Provide cover letter, ORCID for all co-authors, suggested reviewers.</div></div>
+            <div class="step-card"><div class="step-n">03</div><div class="step-title">Editorial Screening</div><div class="step-desc">Scope check and technical screening within 5 business days. Plagiarism detection (iThenticate). Desk rejection or peer-review.</div></div>
+            <div class="step-card"><div class="step-n">04</div><div class="step-title">Peer Review</div><div class="step-desc">Double-blind review by ≥2 independent experts. Target turnaround: 4 weeks. RevMan-based revision tracking.</div></div>
+            <div class="step-card"><div class="step-n">05</div><div class="step-title">Decision &amp; Revision</div><div class="step-desc">Accept / Major revision / Minor revision / Reject with rationale. Revision window: 6 weeks.</div></div>
+            <div class="step-card"><div class="step-n">06</div><div class="step-title">Production &amp; DOI</div><div class="step-desc">Copy-editing, typesetting, DOI assignment. Online First within 72h of final acceptance. Issue assignment within 2 months.</div></div>
+          </div>
+          <div class="s1-cta" style="margin-top:0;">
+            <a href="mailto:procurement@scientiae-naturalis.org" class="btn-primary">Submit Manuscript ↗</a>
+            <a href="mailto:procurement@scientiae-naturalis.org" class="btn-ghost">Author Guidelines →</a>
+          </div>
+        </div>
+
+        <!-- EDITORIAL BOARD -->
+        <div class="jpanel" id="jpanel-editorial">
+          <p class="section-eyebrow">Editorial Board — Scientiae-Naturalis Journal</p>
+          <h2 class="section-title">Leadership &amp; Reviewers</h2>
+          <div class="editors-grid">
+            <div class="editor-card">
+              <div class="ed-role">Editor-in-Chief</div>
+              <div class="ed-name">Prof. Karsten Fischer</div>
+              <div class="ed-affil">Heidelberg University, Germany<br>Computational Pharmacology</div>
+              <div class="ed-orcid">ORCID: <a href="https://orcid.org" target="_blank">0000-0001-XXXX-XXXX</a></div>
+            </div>
+            <div class="editor-card">
+              <div class="ed-role">Deputy Editor</div>
+              <div class="ed-name">Prof. Ananya Bose</div>
+              <div class="ed-affil">Max Planck Institute, Germany<br>Systems Biology</div>
+              <div class="ed-orcid">ORCID: <a href="https://orcid.org" target="_blank">0000-0002-XXXX-XXXX</a></div>
+            </div>
+            <div class="editor-card">
+              <div class="ed-role">Associate Editor</div>
+              <div class="ed-name">Dr. Thomas Brückner</div>
+              <div class="ed-affil">TU Munich, Germany<br>AI &amp; Drug Design</div>
+              <div class="ed-orcid">ORCID: <a href="https://orcid.org" target="_blank">0000-0003-XXXX-XXXX</a></div>
+            </div>
+            <div class="editor-card">
+              <div class="ed-role">Associate Editor</div>
+              <div class="ed-name">Dr. Ifeoma Okafor</div>
+              <div class="ed-affil">Charité Berlin, Germany<br>Translational Medicine</div>
+              <div class="ed-orcid">ORCID: <a href="https://orcid.org" target="_blank">0000-0001-XXXX-XXXX</a></div>
+            </div>
+            <div class="editor-card">
+              <div class="ed-role">Statistical Editor</div>
+              <div class="ed-name">Prof. Lars Henriksen</div>
+              <div class="ed-affil">Freie Universität Berlin, Germany<br>Biostatistics</div>
+              <div class="ed-orcid">ORCID: <a href="https://orcid.org" target="_blank">0000-0002-XXXX-XXXX</a></div>
+            </div>
+            <div class="editor-card">
+              <div class="ed-role">Managing Editor</div>
+              <div class="ed-name">Dr. Sophie Weiss</div>
+              <div class="ed-affil">Scientiae-Naturalis GmbH, Germany</div>
+              <div class="ed-orcid">Contact: procurement@scientiae-naturalis.org</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GUIDELINES -->
+        <div class="jpanel" id="jpanel-guidelines">
+          <p class="section-eyebrow">Author Guidelines — Technical Specifications</p>
+          <h2 class="section-title">Manuscript Requirements</h2>
+          <div class="scope-grid">
+            <div class="scope-item"><strong>Word Limits</strong>Research article: 6,000–10,000 words. Review: up to 15,000 words. Letter: 1,500 words.</div>
+            <div class="scope-item"><strong>File Formats</strong>Manuscript: DOCX or LaTeX. Figures: TIFF / EPS ≥ 300 dpi. Supplementary: ZIP.</div>
+            <div class="scope-item"><strong>Referencing</strong>Vancouver style. DOI required where available. Max 60 references (original articles).</div>
+            <div class="scope-item"><strong>Data Availability</strong>FAIR data principles mandatory. Raw datasets deposited in Zenodo, Figshare, or equivalent.</div>
+            <div class="scope-item"><strong>Ethics</strong>IRB/ethics board approval required for all human or animal studies. Statement in manuscript.</div>
+            <div class="scope-item"><strong>APC / Open Access</strong>Article Processing Charge: € 450 (standard). Waiver available for low-income country institutions.</div>
+            <div class="scope-item"><strong>Code Availability</strong>Reproducible code hosted on GitHub or similar. Archived version via Zenodo.</div>
+            <div class="scope-item"><strong>Language</strong>English only. Professional language editing recommended. Grammarly or equivalent.</div>
+          </div>
+        </div>
+
+        <!-- Contact banner -->
+        <div class="contact-banner">
+          <div>
+            <p><strong>Editorial Correspondence</strong></p>
+            <p>Submissions, peer review, special issues: <strong>procurement@scientiae-naturalis.org</strong></p>
+            <p>Scientiae-Naturalis GmbH · Germany · github.com/scientiae-naturalis</p>
+          </div>
+          <a href="mailto:procurement@scientiae-naturalis.org" class="btn-primary" style="white-space:nowrap;">Contact Editorial Office ↗</a>
+        </div>
+
+      </div>
+    </section>
+
+  </div><!-- /slides-track -->
+</div><!-- /carousel-shell -->
+
+<!-- Arrows -->
+<button class="carousel-arrow prev hidden" id="btn-prev" onclick="navigate(-1)" aria-label="Previous">‹</button>
+<button class="carousel-arrow next" id="btn-next" onclick="navigate(1)" aria-label="Next">›</button>
+
+<!-- Counter -->
+<div id="slide-counter">01 / 03</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+
+<script>
+  // ═══════════════════════════════════════════
+  //  CAROUSEL ENGINE
+  // ═══════════════════════════════════════════
+  let current = 0;
+  const total = 3;
+  const track = document.getElementById('slides-track');
+  const dots  = document.querySelectorAll('.nav-dot');
+  const counter = document.getElementById('slide-counter');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+
+  function goTo(idx) {
+    current = Math.max(0, Math.min(total - 1, idx));
+    track.style.transform = `translateX(-${current * 33.333}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    btnPrev.classList.toggle('hidden', current === 0);
+    btnNext.classList.toggle('hidden', current === total - 1);
+  }
+
+  function navigate(dir) { goTo(current + dir); }
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 60) navigate(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') navigate(1);
+    if (e.key === 'ArrowLeft')  navigate(-1);
+  });
+
+  // ═══════════════════════════════════════════
+  //  CONFERENCE TABS
+  // ═══════════════════════════════════════════
+  function switchTab(e, panelId) {
+    const btns   = document.querySelectorAll('#slide-2 .tab-btn');
+    const panels = document.querySelectorAll('#slide-2 .tab-panel');
+    btns.forEach(b => b.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    if (e && e.target) e.target.classList.add('active');
+    document.getElementById('panel-' + panelId).classList.add('active');
+  }
+
+  // ═══════════════════════════════════════════
+  //  JOURNAL TABS
+  // ═══════════════════════════════════════════
+  function switchJournal(e, panelId) {
+    const btns   = document.querySelectorAll('#slide-3 .jnav-btn');
+    const panels = document.querySelectorAll('#slide-3 .jpanel');
+    btns.forEach(b => b.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    e.target.classList.add('active');
+    document.getElementById('jpanel-' + panelId).classList.add('active');
+  }
+
+  // ═══════════════════════════════════════════
+  //  PAYMENT HELPERS
+  // ═══════════════════════════════════════════
+  function updateTotal() {
+    const sel = document.getElementById('cat-select');
+    const val = sel ? sel.value : '180';
+    const disp = document.getElementById('total-display');
+    if (disp) disp.textContent = '€ ' + val;
+  }
+
+  function formatCard(input) {
+    let v = input.value.replace(/\D/g, '').substring(0, 16);
+    input.value = v.replace(/(.{4})/g, '$1 ').trim();
+  }
+
+  function handlePayment(e) {
+    e.preventDefault();
+    showToast('Processing... Please wait.');
+    setTimeout(() => {
+      showToast('✓ Registration confirmed. Check your email for details.');
+    }, 2000);
+  }
+
+  // ═══════════════════════════════════════════
+  //  DOWNLOAD SIMULATION
+  // ═══════════════════════════════════════════
+  function simulateDownload(name) {
+    showToast('⬇ ' + name + ' — preparing download...');
+  }
+
+  // ═══════════════════════════════════════════
+  //  TOAST
+  // ═══════════════════════════════════════════
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  // Init
+  goTo(0);
+</script>
+
+</body>
+</html>
